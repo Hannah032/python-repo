@@ -1,0 +1,41 @@
+# 처리 기준월: CLI에서 주면 우선, 없으면 여기 값 사용
+target_month: "2025-09"
+
+# 여러 시트 중 어떤 시트를 읽을지
+sheet_name: "Sheet1"
+
+# 파일명에서 부서와 월을 뽑는 정규식 (예: Sales_2025-09_주간.xlsx)
+filename_regex:
+  dept: "(?P<dept>[A-Za-z가-힣]+)"
+  month: "(?P<month>20\\d{2}[-_ ]?(?:0[1-9]|1[0-2]))"
+
+# 컬럼 매핑: 다양한 원본 컬럼명을 표준 스키마로 맵핑
+column_mapping:
+  date: ["date", "날짜", "거래일"]
+  dept: ["dept", "부서", "팀"]
+  product: ["product", "상품", "품목"]
+  qty: ["qty", "수량"]
+  amount: ["amount", "금액", "매출"]
+
+# 타입 변환 규칙
+types:
+  date: "datetime"
+  dept: "string"
+  product: "string"
+  qty: "numeric"
+  amount: "numeric"
+
+# 허용 통화(지정하면 스케일링; 미지정시 원화 가정)
+currency:
+  code: "KRW"
+  scale: 1
+
+# 유효성 검사 규칙
+validation:
+  required_columns: ["date", "dept", "product", "qty", "amount"]
+  allow_negative_qty: false
+  allow_negative_amount: false
+
+# 그래프 설정
+charts:
+  top_n_products: 10
